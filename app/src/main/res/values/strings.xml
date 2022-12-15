@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ProjetAndroid</string>
+    <string name="username">Username :</string>
+    <string name="name">admin</string>
+    <string name="password">Password :</string>
+    <string name="login">Login</string>
+    <string name="signin">Sign in</string>
+</resources>
