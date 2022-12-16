@@ -29,14 +29,19 @@ public class MainActivity extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.password);
         Button b1 = (Button) findViewById(R.id.button);
 
-        //Handeling the database
+        //Handeling the database on first launch
         DatabaseHandler db = new DatabaseHandler(this);
         readPersonneData(db);
+        User admin = new User("admin","admin");
+        db.addUser(admin);
 
+
+        //login button functionality
         b1.setOnClickListener(v -> {
-            if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin"))
+            User loginUser = new User(username.getText().toString(),password.getText().toString());
+            if (db.checkUsernamePassword(loginUser))
             {
-                Toast.makeText(MainActivity.this, "logged in as admin", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "logged in as " +loginUser.getUsername(), Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(MainActivity.this, testDB.class));
             } else {
                 Toast.makeText(MainActivity.this, "wrong username or password", Toast.LENGTH_SHORT).show();

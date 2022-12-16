@@ -320,5 +320,20 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         }
 
+        public Boolean checkUsernamePassword(User user){
+                SQLiteDatabase db = this.getWritableDatabase();
+                Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USER + " WHERE " + KEY_USERNAME + " =? AND " + KEY_PASSWORD + " =? ",
+                        new String[] {
+                                String.valueOf(user.getUsername()),
+                                String.valueOf(user.getPassword())}
+                );
+                if(cursor.getCount()>0){
+                        cursor.close();
+                        return true;
+                }
+                cursor.close();
+                return false;
+        }
+
 
 }
