@@ -1,24 +1,79 @@
 package com.example.projetandroid;
 
+import java.sql.SQLOutput;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class Algorithme {
 
-    public static Double NormalizeData(Double value, Double min, Double max){
-        return (value - min) / (max - min);
+    // Method to find minimum value from the arrayList
+    static double minValue(ArrayList<Double> arraylist) {
+        double min = arraylist.get(0);
+        for(int i = 1; i<arraylist.size(); i++)
+            if(arraylist.get(i)<min) min = arraylist.get(i);
+        return min;
     }
 
+    // Method to find maximum value from the ArrayList
+    static double maxValue(ArrayList<Double> arraylist){
+        double max = arraylist.get(0);
+        for(int i = 1; i<arraylist.size(); i++)
+            if(arraylist.get(i)>max) max = arraylist.get(i);
+        return max;
+    }
+
+    //method to initialize the arraylist of Personne Age
+
+    public static ArrayList<Double> initializeAge(List<Personne> personnes){
+        ArrayList<Double> ageList = new ArrayList<>();
+        for (Personne personne : personnes) {
+            ageList.add((double) personne.getAge());
+        }
+        return ageList;
+    }
+
+    static ArrayList<Double> normalizeData(ArrayList<Double> arraylist){
+        ArrayList<Double> normalizedList = new ArrayList<>();
+        for(int i = 0 ; i<arraylist.size() ; i++) {
+            double value = ((arraylist.get(i) - minValue(arraylist)) / (maxValue(arraylist) - minValue(arraylist)));
+            normalizedList.add(value);
+        }
+            return normalizedList;
+        }
     public static String NearestNeighbour(Personne target, List<Personne> personnes) {
 
-        double maxAgeDifference = 0;
-        double maxGenreDifference = 0;
-        double maxBloodPressureDifference = 0;
-        double maxCholesterolDifference = 0;
-        double maxNaDifference = 0;
-        double maxKDifference = 0;
+        double minAgeDifference = 10;
+        double minGenreDifference = 1;
+        double minBloodPressureDifference = 1;
+        double minCholesterolDifference = 1;
+        double minNaDifference = 1;
+        double minKDifference = 1;
+
+        //age has to be normalized between 0 and 1 to be able to compare it with the other attributes
+        ArrayList<Double> ageList = initializeAge(personnes);
+
+        ArrayList<Double> normalizedAgeList = normalizeData(ageList);
+        ArrayList<Double> ageDifferenceList = normalizeData(ageList);
+
+        for(int i = 0; i<normalizedAgeList.size(); i++){
+
+            double normalizedAge = (target.getAge() - minValue(ageList)) / (maxValue(ageList) - minValue(ageList));
+
+            double ageDifference = Math.abs(normalizedAge - normalizedAgeList.get(i)) ;
+            ageDifferenceList.add(ageDifference);
+        }
+
+
+        int i = 0;
+        double totalDifference;
+        LinkedHashMap<Double,String> totalDifferenceMap = new LinkedHashMap<>();
 
         for (Personne p : personnes) {
-            double ageDifference = target.getAge() - p.getAge();
+            p.setUsername("Personne " + i);
+            i++;
+
             double genreDifference = target.getGenre().equals(p.getGenre()) ? 0 : 1;
             double bloodPressureDifference;
 
@@ -40,27 +95,13 @@ public class Algorithme {
             float naDifference = Math.abs((float) target.getNa() - (float) p.getNa());
             float kDifference = Math.abs((float) target.getK() - (float) p.getK());
 
-            if (ageDifference > maxAgeDifference ) {
-                maxAgeDifference = ageDifference;
-            }
-            if (genreDifference > maxGenreDifference) {
-                maxGenreDifference = genreDifference;
-            }
-            if (bloodPressureDifference > maxBloodPressureDifference) {
-                maxBloodPressureDifference = bloodPressureDifference;
-            }
-            if (cholesterolDifference > maxCholesterolDifference) {
-                maxCholesterolDifference = cholesterolDifference;
-            }
-            if (naDifference > maxNaDifference) {
-                maxNaDifference = naDifference;
-            }
-            if (kDifference > maxKDifference) {
-                maxKDifference = kDifference;
-            }
-
+            totalDifference = Math.abs(Math.sqrt(Math.pow(ageDifferenceList.get(i), 2) + Math.pow(genreDifference, 2) + Math.pow(bloodPressureDifference, 2) + Math.pow(cholesterolDifference, 2) + Math.pow(naDifference, 2) + Math.pow(kDifference, 2)));
+            totalDifferenceMap.put(totalDifference,p.getUsername());
 
         }
+        System.out.println(totalDifferenceMap);
+
+
         return "Drug FFFFF";
     }
 }
