@@ -3,6 +3,7 @@ package com.example.projetandroid;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
@@ -88,7 +89,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         }
 
-        void addPesonne(Personne personne){
+        void addPesonne(Personne personne)  {
 
                 SQLiteDatabase db = this.getWritableDatabase();
 

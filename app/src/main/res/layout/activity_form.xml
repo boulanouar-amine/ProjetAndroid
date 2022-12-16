@@ -35,7 +35,7 @@
         android:drawablePadding="20dp"
         android:hint="@string/age"
 
-        android:inputType="textPersonName"
+        android:inputType="number"
         android:padding="28dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -53,7 +53,7 @@
         android:drawablePadding="20dp"
         android:hint="@string/na"
 
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         android:padding="28dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -71,7 +71,7 @@
         android:drawablePadding="20dp"
         android:hint="@string/k"
 
-        android:inputType="textPersonName"
+        android:inputType="numberDecimal"
         android:padding="28dp"
         android:textColor="@color/white"
         android:textColorHint="@color/white"
@@ -178,13 +178,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:id="@+id/radio_Cholesterol"
         android:layout_toEndOf="@id/radio_BloodPressure"
         android:layout_below="@id/radio_Genre"
         android:layout_marginStart="28dp"
         android:layout_marginEnd="18dp"
         >
         <TextView
-            android:id="@+id/radio_Cholesterol"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/cholesterol"
@@ -220,7 +221,7 @@
 
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/button"
+        android:id="@+id/submit"
         android:layout_width="135dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radio_BloodPressure"
