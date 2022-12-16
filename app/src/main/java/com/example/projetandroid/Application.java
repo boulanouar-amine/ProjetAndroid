@@ -19,13 +19,17 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
         //Handeling the database on first launch
         DatabaseHandler db = new DatabaseHandler(this);
+
         readPersonneData(db);
+        //i have just one user currently but i will add more later
         User admin = new User("admin","admin");
         db.addUser(admin);
     }
 
+    //Read the data from the csv file and add it to the database
     private void readPersonneData(DatabaseHandler db){
         InputStream is = getResources().openRawResource(R.raw.data);
         BufferedReader reader = new BufferedReader(

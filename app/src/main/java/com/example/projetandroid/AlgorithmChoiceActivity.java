@@ -30,28 +30,36 @@ public class AlgorithmChoiceActivity extends AppCompatActivity {
             RadioButton selectedAlgo = (RadioButton) findViewById(radioAlgo.getCheckedRadioButtonId());
             String selectedAlgoText = selectedAlgo.getText().toString();
 
-            //testing the database
-            Personne personne =  db.getLastAddedPersonne();
+            //getting the last added person in the database from their ROWID instead of sending the whole object from the previous activity
+            Personne targetPersonne =  db.getLastAddedPersonne();
 
+            //helps having same name for the results of all the algorithms instead of having to change the name of the result for each algorithm
             String drugResult = "";
+
             if(selectedAlgoText.equals("Nearest neighbor")){
 
-                TreeSet<Integer> neighrestNeighbours;
+                TreeSet<Integer> nearestNeighbours;
 
-                neighrestNeighbours = Algorithm.NearestNeighbour(personne, db.getAllPersonnes());
+                //getting the nearest neighbours (an array of their ROWID since i use multiple rows as a primary key) of the last added personne
+                nearestNeighbours = Algorithm.NearestNeighbour(targetPersonne, db.getAllPersonnes());
+
                 Personne neighbour;
 
                 ArrayList<String> neighboursDrugs = new ArrayList<>();
-                for (Integer rowid : neighrestNeighbours) {
+
+                //getting the drugs of the 5 nearest neighbours from the database
+                //can be changed to get the number of neighbours you want
+                //also can show all 5 drugs in a list instead of just the most frequent one
+                for (Integer rowid : nearestNeighbours) {
 
                    neighbour = db.getPersonneFromRowId(String.valueOf(rowid));
                    neighboursDrugs.add(neighbour.getDrug());
                 }
                 String mostFrequentDrug = mostFrequent(neighboursDrugs);
 
-                System.out.println(mostFrequentDrug);
-                personne.setDrug(mostFrequentDrug);
-                db.updatePersonne(personne);
+                //setting the drug in the database
+                targetPersonne.setDrug(mostFrequentDrug);
+                db.updatePersonne(targetPersonne);
 
                 drugResult = mostFrequentDrug;
             }

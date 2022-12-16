@@ -21,11 +21,12 @@ public class FormActivity extends AppCompatActivity {
 
         //text fields
         EditText Age = (EditText) findViewById(R.id.Age);
+
+        //TOOD need to handle normalisation of the imputs between 1 and 0
         EditText Na = (EditText) findViewById(R.id.Na);
         EditText k = (EditText) findViewById(R.id.K);
 
         //radio Groups
-
         RadioGroup radioGenre = (RadioGroup) findViewById(R.id.radio_Genre);
         RadioGroup radioBloodPressure = (RadioGroup) findViewById(R.id.radio_BloodPressure);
         RadioGroup radioCholesterol = (RadioGroup) findViewById(R.id.radio_Cholesterol);
@@ -47,6 +48,7 @@ public class FormActivity extends AppCompatActivity {
             String bloodPressure = radioGenericHandler(radioBloodPressure,"Please select your blood pressure");
             String cholesterol = radioGenericHandler(radioCholesterol,"Please select your cholesterol");
 
+            //this has a quirk of showing the RadioGroup error message before the EditText error message
             if(isNotEmpty(Age,"Please enter your Age")
                     && isNotEmpty(Na,"Please enter your Na")
                     && isNotEmpty(k,"Please enter your K")
