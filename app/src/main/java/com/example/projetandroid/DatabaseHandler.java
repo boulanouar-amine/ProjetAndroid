@@ -89,7 +89,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         }
 
-        void addPesonne(Personne personne)  {
+        void addPersonne(Personne personne)  {
 
                 SQLiteDatabase db = this.getWritableDatabase();
 

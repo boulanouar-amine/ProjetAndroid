@@ -63,7 +63,7 @@ public class FormActivity extends AppCompatActivity {
             p.setNa(Double.parseDouble(Na.getText().toString()));
             p.setK(Double.parseDouble(k.getText().toString()));
 
-            db.addPesonne(p);
+            db.addPersonne(p);
                 Toast.makeText(this, "Choose your Algorithm", Toast.LENGTH_SHORT).show();
                 Intent algorithmIntent = new Intent(FormActivity.this, AlgorithmChoiceActivity.class);
 
@@ -72,9 +72,9 @@ public class FormActivity extends AppCompatActivity {
         });
     }
 
-    private boolean isNotEmpty(EditText editText , String errormessage) {
+    private boolean isNotEmpty(EditText editText , String errorMessage) {
        if(editText.getText().toString().trim().length() == 0){
-           Toast.makeText(FormActivity.this,errormessage, Toast.LENGTH_SHORT).show();
+           Toast.makeText(FormActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
            return false;
        }
         return true;

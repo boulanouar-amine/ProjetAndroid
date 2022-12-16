@@ -1,8 +1,5 @@
 package com.example.projetandroid;
 
-
-import java.util.Locale;
-
 public class Personne {
 
     private int id;

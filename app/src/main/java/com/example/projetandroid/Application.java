@@ -48,7 +48,7 @@ public class Application extends android.app.Application {
                 personne.setK(Double.parseDouble(tokens[5]));
                 personne.setDrug(tokens[6]);
 
-                db.addPesonne(personne);
+                db.addPersonne(personne);
             }
         }
         catch(IOException e){

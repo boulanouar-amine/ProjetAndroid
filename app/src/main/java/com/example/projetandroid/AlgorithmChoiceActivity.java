@@ -1,6 +1,6 @@
 package com.example.projetandroid;
 
-import static com.example.projetandroid.Algorithme.mostFrequent;
+import static com.example.projetandroid.Algorithm.mostFrequent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,7 +38,7 @@ public class AlgorithmChoiceActivity extends AppCompatActivity {
 
                 TreeSet<Integer> neighrestNeighbours;
 
-                neighrestNeighbours = Algorithme.NearestNeighbour(personne, db.getAllPersonnes());
+                neighrestNeighbours = Algorithm.NearestNeighbour(personne, db.getAllPersonnes());
                 Personne neighbour;
 
                 ArrayList<String> neighboursDrugs = new ArrayList<>();

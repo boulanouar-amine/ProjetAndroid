@@ -1,16 +1,12 @@
 package com.example.projetandroid;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-public class Algorithme {
+public class Algorithm {
 
     // KNN section
 
@@ -50,13 +46,7 @@ public class Algorithme {
         }
     public static TreeSet<Integer> NearestNeighbour(Personne target, List<Personne> personnes) {
 
-        double minAgeDifference = 10;
-        double minGenreDifference = 1;
-        double minBloodPressureDifference = 1;
-        double minCholesterolDifference = 1;
-        double minNaDifference = 1;
-        double minKDifference = 1;
-
+  
         //age has to be normalized between 0 and 1 to be able to compare it with the other attributes
         ArrayList<Double> ageList = initializeAge(personnes);
 
@@ -135,4 +125,6 @@ public class Algorithme {
 
         return mostFrequentElement;
     }
+    
+    // Start of Bayes section
 }
