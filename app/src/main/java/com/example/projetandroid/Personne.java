@@ -124,4 +124,17 @@ public class Personne {
         this.k = k;
         this.drug = drug;
     }
+
+    public Personne(
+            int age, String genre, String bloodPressure,
+            String cholesterol, double na , double k ) {
+        this.age = age;
+        this.genre = Genre.valueOf(genre);
+        this.bloodPressure = BloodPressure.valueOf(bloodPressure);
+        this.cholesterol = Cholesterol.valueOf(cholesterol);
+        this.na = na;
+        this.k = k;
+
+    }
+
 }

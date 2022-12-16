@@ -2,20 +2,14 @@ package com.example.projetandroid;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+
 import android.content.Intent;
-import android.database.sqlite.SQLiteConstraintException;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Objects;
 
 public class FormActivity extends AppCompatActivity {
@@ -42,7 +36,7 @@ public class FormActivity extends AppCompatActivity {
         DatabaseHandler db = new DatabaseHandler(this);
 
 
-        submit.setOnClickListener(v -> {
+        submit.setOnClickListener(view -> {
 
             //getting the values from the radio fields
             String genre = radioGenericHandler(radioGenre,"Please select a Genre");
@@ -69,9 +63,11 @@ public class FormActivity extends AppCompatActivity {
             p.setNa(Double.parseDouble(Na.getText().toString()));
             p.setK(Double.parseDouble(k.getText().toString()));
 
-
             db.addPesonne(p);
-            Toast.makeText(FormActivity.this, "Personne added succesfuly", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Choose your Algorithm", Toast.LENGTH_SHORT).show();
+                Intent algorithmIntent = new Intent(FormActivity.this, AlgoritmChoiceActivity.class);
+
+                startActivity(algorithmIntent);
             }
         });
     }
@@ -84,7 +80,7 @@ public class FormActivity extends AppCompatActivity {
         return true;
     }
 
-    String radioGenericHandler(RadioGroup radioGroup,String errorMessage){
+    private String radioGenericHandler(RadioGroup radioGroup,String errorMessage){
         try {
             RadioButton selectedRadioButton = (RadioButton) findViewById(radioGroup.getCheckedRadioButtonId());
             return selectedRadioButton.getText().toString().toUpperCase();
