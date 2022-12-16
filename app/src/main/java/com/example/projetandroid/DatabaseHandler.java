@@ -31,6 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         private static final String KEY_CHOLESTEROL = "cholesterol";
         private static final String KEY_NA = "na";
         private static final String KEY_K = "k";
+        private static final String KEY_DRUG = "drug";
 
 
         public DatabaseHandler(Context context) {
@@ -48,16 +49,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                 String CREATE_PERSONNE_TABLE = "CREATE TABLE " + TABLE_PERSONNE + "("
                         + KEY_USERNAME + " TEXT,"
-                        + KEY_PASSWORD + " TEXT,"
-                        + KEY_AGE + " INTEGER,"
-                        + KEY_GENRE + " TEXT,"
-                        + KEY_BLOODPRESSURE + " TEXT,"
-                        + KEY_CHOLESTEROL + " TEXT,"
-                        + KEY_NA + " INTEGER,"
-                        + KEY_K + " INTEGER,"
-                        + "FOREIGN KEY(" + KEY_USERNAME + ") REFERENCES "+ TABLE_USER +" (" + KEY_USERNAME + ") ON DELETE CASCADE,"
-                        + "FOREIGN KEY(" + KEY_PASSWORD + ") REFERENCES "+ TABLE_USER +" (" + KEY_PASSWORD + ") ON DELETE CASCADE"
-                        + ")";
+                        + KEY_AGE + " INTEGER NOT NULL,"
+                        + KEY_GENRE + " TEXT NOT NULL,"
+                        + KEY_BLOODPRESSURE + " TEXT NOT NULL,"
+                        + KEY_CHOLESTEROL + " TEXT NOT NULL,"
+                        + KEY_NA + " INTEGER NOT NULL,"
+                        + KEY_K + " INTEGER NOT NULL,"
+                        + KEY_DRUG + " TEXT,"
+                        + "FOREIGN KEY(" + KEY_USERNAME + ") REFERENCES "+ TABLE_USER +" (" + KEY_USERNAME + ") ON DELETE CASCADE ON UPDATE CASCADE,"
+                        + "PRIMARY KEY("+ KEY_AGE + ","
+                                        + KEY_GENRE + ","
+                                        + KEY_BLOODPRESSURE + ","
+                                        + KEY_CHOLESTEROL + ","
+                                        + KEY_NA + ","
+                                        + KEY_K + ")"
+                        + ") WITHOUT ROWID";
 
                 db.execSQL(CREATE_USER_TABLE);
                 db.execSQL(CREATE_PERSONNE_TABLE);
@@ -86,21 +92,18 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
         void addPesonne(Personne personne){
 
-                User user = new User(personne.getUsername(),personne.getPassword());
-                addUser(user);
-
                 SQLiteDatabase db = this.getWritableDatabase();
 
                 ContentValues values = new ContentValues();
+                values.put(KEY_USERNAME,personne.getUsername());
                 values.put(KEY_AGE,personne.getAge());
                 values.put(KEY_GENRE,personne.getGenre());
                 values.put(KEY_BLOODPRESSURE,personne.getBloodPressure());
                 values.put(KEY_CHOLESTEROL,personne.getCholesterol());
                 values.put(KEY_NA,personne.getNa());
                 values.put(KEY_K,personne.getK());
+                values.put(KEY_DRUG,personne.getDrug());
 
-                values.put(KEY_USERNAME,user.getUsername());
-                values.put(KEY_PASSWORD,user.getPassword());
 
                 db.insert(TABLE_PERSONNE,null,values);
 
@@ -137,9 +140,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 SQLiteDatabase db = this.getReadableDatabase();
 
                 Cursor cursor = db.query(TABLE_PERSONNE,new String[] {
-                                KEY_USERNAME,KEY_PASSWORD,KEY_AGE,
+                                KEY_USERNAME,KEY_AGE,
                                 KEY_GENRE,KEY_BLOODPRESSURE,
-                                KEY_CHOLESTEROL,KEY_NA,KEY_K},
+                                KEY_CHOLESTEROL,KEY_NA,KEY_K,KEY_DRUG},
                         KEY_USERNAME + "=?",
                         new String[] {String.valueOf(username)},null,null,null,null);
 
@@ -152,13 +155,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 Personne personne = new Personne();
 
                 personne.setUsername(String.valueOf(cursor.getString(0)));
-                personne.setPassword(String.valueOf(cursor.getString(1)));
-                personne.setAge(Integer.parseInt(cursor.getString(2)));
-                personne.setGenre(String.valueOf(cursor.getString(3)));
-                personne.setBloodPressure(String.valueOf(cursor.getString(4)));
-                personne.setCholesterol(String.valueOf(cursor.getString(5)));
-                personne.setNa(Integer.parseInt(cursor.getString(6)));
-                personne.setK(Integer.parseInt(cursor.getString(7)));
+                personne.setAge(Integer.parseInt(cursor.getString(1)));
+                personne.setGenre(String.valueOf(cursor.getString(2)));
+                personne.setBloodPressure(String.valueOf(cursor.getString(3)));
+                personne.setCholesterol(String.valueOf(cursor.getString(4)));
+                personne.setNa(Integer.parseInt(cursor.getString(5)));
+                personne.setK(Integer.parseInt(cursor.getString(6)));
+                personne.setDrug(String.valueOf(cursor.getString(7)));
 
                 cursor.close();
 
@@ -207,13 +210,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                                 Personne personne = new Personne();
 
                                 personne.setUsername(String.valueOf(cursor.getString(0)));
-                                personne.setPassword(String.valueOf(cursor.getString(1)));
-                                personne.setAge(Integer.parseInt(cursor.getString(2)));
-                                personne.setGenre(String.valueOf(cursor.getString(3)));
-                                personne.setBloodPressure(String.valueOf(cursor.getString(4)));
-                                personne.setCholesterol(String.valueOf(cursor.getString(5)));
-                                personne.setNa(Integer.parseInt(cursor.getString(6)));
-                                personne.setK(Integer.parseInt(cursor.getString(7)));
+                                personne.setAge(Integer.parseInt(cursor.getString(1)));
+                                personne.setGenre(String.valueOf(cursor.getString(2)));
+                                personne.setBloodPressure(String.valueOf(cursor.getString(3)));
+                                personne.setCholesterol(String.valueOf(cursor.getString(4)));
+                                personne.setNa(Integer.parseInt(cursor.getString(5)));
+                                personne.setK(Integer.parseInt(cursor.getString(6)));
+                                personne.setDrug(String.valueOf(cursor.getString(7)));
 
                                 personneList.add(personne);
 
@@ -242,16 +245,30 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 ContentValues values = new ContentValues();
 
                 values.put(KEY_USERNAME,personne.getUsername());
-                values.put(KEY_PASSWORD,personne.getPassword());
                 values.put(KEY_AGE,personne.getAge());
                 values.put(KEY_GENRE,personne.getGenre());
                 values.put(KEY_BLOODPRESSURE,personne.getBloodPressure());
                 values.put(KEY_CHOLESTEROL,personne.getCholesterol());
                 values.put(KEY_NA,personne.getNa());
                 values.put(KEY_K,personne.getK());
+                values.put(KEY_DRUG,personne.getDrug());
 
-                return db.update(TABLE_PERSONNE,values,KEY_USERNAME + "=?",
-                        new String[] {String.valueOf(personne.getUsername())});
+                return db.update(TABLE_PERSONNE,values,
+                        KEY_AGE + "=? and "
+                                + KEY_GENRE + "=? and "
+                                + KEY_BLOODPRESSURE + "=? and "
+                                + KEY_CHOLESTEROL + "=? and "
+                                + KEY_NA + "=? and "
+                                + KEY_K + "=? and "
+                                + KEY_DRUG + "=? and ",
+                        new String[] {Integer.toString(personne.getAge()),
+                                String.valueOf(personne.getGenre()),
+                                String.valueOf(personne.getBloodPressure()),
+                                String.valueOf(personne.getCholesterol()),
+                                Integer.toString(personne.getNa()),
+                                Integer.toString(personne.getK()),
+                                String.valueOf(personne.getDrug())
+                });
 
         }
 
@@ -269,8 +286,21 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         public void deletePersonne(Personne personne){
                 SQLiteDatabase db = this.getWritableDatabase();
 
-                db.delete(TABLE_PERSONNE,KEY_USERNAME + "=?",
-                        new String[] {String.valueOf(personne.getUsername())});
+                db.delete(TABLE_PERSONNE,KEY_AGE + "=? and "
+                                + KEY_GENRE + "=? and "
+                                + KEY_BLOODPRESSURE + "=? and "
+                                + KEY_CHOLESTEROL + "=? and "
+                                + KEY_NA + "=? and "
+                                + KEY_K + "=? and "
+                                + KEY_DRUG + "=? and ",
+                        new String[] {Integer.toString(personne.getAge()),
+                                String.valueOf(personne.getGenre()),
+                                String.valueOf(personne.getBloodPressure()),
+                                String.valueOf(personne.getCholesterol()),
+                                Integer.toString(personne.getNa()),
+                                Integer.toString(personne.getK()),
+                                String.valueOf(personne.getDrug())
+                });
 
                 db.close();
 

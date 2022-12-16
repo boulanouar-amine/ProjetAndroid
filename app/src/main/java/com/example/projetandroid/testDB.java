@@ -16,22 +16,26 @@ public class testDB extends AppCompatActivity {
 
         DatabaseHandler db = new DatabaseHandler(this);
         Log.d("Insert: ", "Inserting ..");
-        db.addPesonne(new Personne("fdsfsf","2002",20,"MALE","NORMAL","NORMAL",1,1));
-        db.addPesonne(new Personne("vdvd","P@ssword",45,"MALE","LOW","NORMAL",60,14));
+
+        db.addPesonne(new Personne(20,"MALE","NORMAL","NORMAL",1,1,"Drug Y"));
+
+        db.addUser(new User("admin","admin"));
+        db.addPesonne(new Personne(55,"MALE","LOW","NORMAL",60,14,"drug D"));
 
         Log.d("Reading: ", "Reading all Personnes..");
         List<Personne> personneList = db.getAllPersonnes();
 
         for (Personne personne : personneList)
         {
-            String log = "Username: " +personne.getUsername()
-                    + " ,Password: " + personne.getPassword()
+            String log =
+                      "Username: " +personne.getUsername()
                     + " ,Age: " + personne.getAge()
                     + " ,Genre: " + personne.getGenre()
                     + " ,BloodPressure: " + personne.getBloodPressure()
                     + " ,Cholesterol: " + personne.getCholesterol()
                     + " ,Na: " + personne.getNa()
-                    + " ,K: " + personne.getK();
+                    + " ,K: " + personne.getK()
+                    + ",Drug: " + personne.getDrug();
             Log.d("Personne: : ", log);
         }
 

@@ -2,7 +2,6 @@ package com.example.projetandroid;
 
 public class User {
 
-
     private String username,password;
 
     public User(String username,String password)

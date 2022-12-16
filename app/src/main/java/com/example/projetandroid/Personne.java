@@ -3,11 +3,11 @@ package com.example.projetandroid;
 
 import java.util.Locale;
 
-public class Personne extends User {
+public class Personne {
+
+    private String username;
 
     private int age;
-
-    public Personne() {}
 
     private enum Genre {MALE,FEMALE}
 
@@ -24,6 +24,14 @@ public class Personne extends User {
     BloodPressure bloodPressure;
 
     Cholesterol cholesterol;
+
+    private String drug;
+
+    // getters
+
+    public String getUsername() {
+        return username;
+    }
 
     public int getAge() {
         return age;
@@ -47,6 +55,16 @@ public class Personne extends User {
 
     public int getK() {
         return k;
+    }
+
+    public String getDrug() {
+        return drug;
+    }
+
+    // setters
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public void setAge(int age) {
@@ -73,17 +91,37 @@ public class Personne extends User {
         this.na = na;
     }
 
+    public void setDrug(String drug) {
+        this.drug = drug;
+    }
+
+    // constructors
+
+    public Personne() {}
 
     public Personne(
-            String username, String password,
+            String username,
             int age, String genre, String bloodPressure,
-                    String cholesterol, int na , int k) {
-        super(username, password);
+                    String cholesterol, int na , int k , String drug) {
+        this.username = username;
         this.age = age;
         this.genre = Genre.valueOf(genre);
         this.bloodPressure = BloodPressure.valueOf(bloodPressure);
         this.cholesterol = Cholesterol.valueOf(cholesterol);
         this.na = na;
         this.k = k;
+        this.drug = drug;
+    }
+
+    public Personne(
+            int age, String genre, String bloodPressure,
+            String cholesterol, int na , int k , String drug) {
+        this.age = age;
+        this.genre = Genre.valueOf(genre);
+        this.bloodPressure = BloodPressure.valueOf(bloodPressure);
+        this.cholesterol = Cholesterol.valueOf(cholesterol);
+        this.na = na;
+        this.k = k;
+        this.drug = drug;
     }
 }
