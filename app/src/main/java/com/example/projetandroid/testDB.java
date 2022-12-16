@@ -15,12 +15,12 @@ public class testDB extends AppCompatActivity {
         setContentView(R.layout.activity_test_db);
 
         DatabaseHandler db = new DatabaseHandler(this);
-        Log.d("Insert: ", "Inserting ..");
-
-        db.addPesonne(new Personne(20,"MALE","NORMAL","NORMAL",1,1,"Drug Y"));
-
-        db.addUser(new User("admin","admin"));
-        db.addPesonne(new Personne(55,"MALE","LOW","NORMAL",60,14,"drug D"));
+//        Log.d("Insert: ", "Inserting ..");
+//
+//        db.addPesonne(new Personne(20,"F","NORMAL","NORMAL",1,1,"Drug Y"));
+//
+//        db.addUser(new User("admin","admin"));
+//        db.addPesonne(new Personne("admin",47,"M","LOW","HIGH",0.739309,0.056468,"drugC"));
 
         Log.d("Reading: ", "Reading all Personnes..");
         List<Personne> personneList = db.getAllPersonnes();

@@ -12,8 +12,6 @@ import java.util.List;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
-
-
         private static final String DATABASE_NAME = "projetdb";
         private static final int DATABASE_VERSION = 1;
 
@@ -43,8 +41,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         public void onCreate(SQLiteDatabase db) {
 
                 String CREATE_USER_TABLE = "CREATE TABLE " + TABLE_USER + "("
-                        + KEY_USERNAME + " TEXT PRIMARY KEY,"
-                        + KEY_PASSWORD + " TEXT"
+                        + KEY_USERNAME + " TEXT NOT NULL PRIMARY KEY,"
+                        + KEY_PASSWORD + " TEXT NOT NULL"
                         +")";
 
                 String CREATE_PERSONNE_TABLE = "CREATE TABLE " + TABLE_PERSONNE + "("
@@ -53,8 +51,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         + KEY_GENRE + " TEXT NOT NULL,"
                         + KEY_BLOODPRESSURE + " TEXT NOT NULL,"
                         + KEY_CHOLESTEROL + " TEXT NOT NULL,"
-                        + KEY_NA + " INTEGER NOT NULL,"
-                        + KEY_K + " INTEGER NOT NULL,"
+                        + KEY_NA + " REAL NOT NULL,"
+                        + KEY_K + " REAL NOT NULL,"
                         + KEY_DRUG + " TEXT,"
                         + "FOREIGN KEY(" + KEY_USERNAME + ") REFERENCES "+ TABLE_USER +" (" + KEY_USERNAME + ") ON DELETE CASCADE ON UPDATE CASCADE,"
                         + "PRIMARY KEY("+ KEY_AGE + ","
@@ -159,8 +157,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 personne.setGenre(String.valueOf(cursor.getString(2)));
                 personne.setBloodPressure(String.valueOf(cursor.getString(3)));
                 personne.setCholesterol(String.valueOf(cursor.getString(4)));
-                personne.setNa(Integer.parseInt(cursor.getString(5)));
-                personne.setK(Integer.parseInt(cursor.getString(6)));
+                personne.setNa(Double.parseDouble(cursor.getString(5)));
+                personne.setK(Double.parseDouble(cursor.getString(6)));
                 personne.setDrug(String.valueOf(cursor.getString(7)));
 
                 cursor.close();
@@ -214,8 +212,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                                 personne.setGenre(String.valueOf(cursor.getString(2)));
                                 personne.setBloodPressure(String.valueOf(cursor.getString(3)));
                                 personne.setCholesterol(String.valueOf(cursor.getString(4)));
-                                personne.setNa(Integer.parseInt(cursor.getString(5)));
-                                personne.setK(Integer.parseInt(cursor.getString(6)));
+                                personne.setNa(Double.parseDouble(cursor.getString(5)));
+                                personne.setK(Double.parseDouble(cursor.getString(6)));
                                 personne.setDrug(String.valueOf(cursor.getString(7)));
 
                                 personneList.add(personne);
@@ -259,15 +257,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                                 + KEY_BLOODPRESSURE + "=? and "
                                 + KEY_CHOLESTEROL + "=? and "
                                 + KEY_NA + "=? and "
-                                + KEY_K + "=? and "
-                                + KEY_DRUG + "=? and ",
+                                + KEY_K + "=? and ",
                         new String[] {Integer.toString(personne.getAge()),
                                 String.valueOf(personne.getGenre()),
                                 String.valueOf(personne.getBloodPressure()),
                                 String.valueOf(personne.getCholesterol()),
-                                Integer.toString(personne.getNa()),
-                                Integer.toString(personne.getK()),
-                                String.valueOf(personne.getDrug())
+                                Double.toString(personne.getNa()),
+                                Double.toString(personne.getK())
                 });
 
         }
@@ -291,15 +287,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                                 + KEY_BLOODPRESSURE + "=? and "
                                 + KEY_CHOLESTEROL + "=? and "
                                 + KEY_NA + "=? and "
-                                + KEY_K + "=? and "
-                                + KEY_DRUG + "=? and ",
+                                + KEY_K + "=? and ",
                         new String[] {Integer.toString(personne.getAge()),
                                 String.valueOf(personne.getGenre()),
                                 String.valueOf(personne.getBloodPressure()),
                                 String.valueOf(personne.getCholesterol()),
-                                Integer.toString(personne.getNa()),
-                                Integer.toString(personne.getK()),
-                                String.valueOf(personne.getDrug())
+                                Double.toString(personne.getNa()),
+                                Double.toString(personne.getK()),
                 });
 
                 db.close();
@@ -325,5 +319,6 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 return cursor.getCount();
 
         }
+
 
 }

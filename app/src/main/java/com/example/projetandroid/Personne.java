@@ -9,15 +9,15 @@ public class Personne {
 
     private int age;
 
-    private enum Genre {MALE,FEMALE}
+    private enum Genre {M,F}
 
     private enum BloodPressure {HIGH,LOW,NORMAL}
 
     private enum Cholesterol {HIGH,NORMAL}
 
-    private int na;
+    private double na;
 
-    private int k;
+    private double k;
 
     Genre genre;
 
@@ -49,11 +49,11 @@ public class Personne {
         return cholesterol.toString();
     }
 
-    public int getNa() {
+    public double getNa() {
         return na;
     }
 
-    public int getK() {
+    public double getK() {
         return k;
     }
 
@@ -83,11 +83,11 @@ public class Personne {
         this.cholesterol = Cholesterol.valueOf(cholesterol);
     }
 
-    public void setK(int k) {
+    public void setK(double k) {
         this.k = k;
     }
 
-    public void setNa(int na) {
+    public void setNa(double na) {
         this.na = na;
     }
 
@@ -102,7 +102,7 @@ public class Personne {
     public Personne(
             String username,
             int age, String genre, String bloodPressure,
-                    String cholesterol, int na , int k , String drug) {
+                    String cholesterol, double na , double k , String drug) {
         this.username = username;
         this.age = age;
         this.genre = Genre.valueOf(genre);
@@ -115,7 +115,7 @@ public class Personne {
 
     public Personne(
             int age, String genre, String bloodPressure,
-            String cholesterol, int na , int k , String drug) {
+            String cholesterol, double na , double k , String drug) {
         this.age = age;
         this.genre = Genre.valueOf(genre);
         this.bloodPressure = BloodPressure.valueOf(bloodPressure);

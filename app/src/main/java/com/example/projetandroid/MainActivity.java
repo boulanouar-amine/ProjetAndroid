@@ -4,10 +4,18 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,19 +29,53 @@ public class MainActivity extends AppCompatActivity {
         EditText password = (EditText) findViewById(R.id.password);
         Button b1 = (Button) findViewById(R.id.button);
 
-        b1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin"))
-                {
-                    Toast.makeText(MainActivity.this, "logged in as admin", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(MainActivity.this, testDB.class));
-                } else {
-                    Toast.makeText(MainActivity.this, "wrong username or password", Toast.LENGTH_SHORT).show();
-                }
+        //Handeling the database
+        DatabaseHandler db = new DatabaseHandler(this);
+        readPersonneData(db);
+
+        b1.setOnClickListener(v -> {
+            if (username.getText().toString().equals("admin") && password.getText().toString().equals("admin"))
+            {
+                Toast.makeText(MainActivity.this, "logged in as admin", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(MainActivity.this, testDB.class));
+            } else {
+                Toast.makeText(MainActivity.this, "wrong username or password", Toast.LENGTH_SHORT).show();
             }
         });
 
 
     }
+    private void readPersonneData(DatabaseHandler db){
+        InputStream is = getResources().openRawResource(R.raw.data);
+        BufferedReader reader = new BufferedReader(
+          new InputStreamReader(is, StandardCharsets.UTF_8)
+        );
+        String line = "";
+        try{
+            //skip the headers
+            reader.readLine();
+            while((line = reader.readLine()) != null){
+                //split by ','
+                String[] tokens = line.split(",");
+                Personne personne = new Personne();
+
+                personne.setAge(Integer.parseInt(tokens[0]));
+                personne.setGenre(tokens[1]);
+                personne.setBloodPressure(tokens[2]);
+                personne.setCholesterol(tokens[3]);
+                personne.setNa(Double.parseDouble(tokens[4]));
+                personne.setK(Double.parseDouble(tokens[5]));
+                personne.setDrug(tokens[6]);
+
+                db.addPesonne(personne);
+            }
+        }
+        catch(IOException e){
+            Log.wtf("MainActivity","Error reading data file on line " + line,e);
+        }
+
+
+
+    }
 }
+
