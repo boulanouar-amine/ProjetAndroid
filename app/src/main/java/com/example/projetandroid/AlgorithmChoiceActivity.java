@@ -1,18 +1,19 @@
 package com.example.projetandroid;
 
+import static com.example.projetandroid.Algorithme.mostFrequent;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import java.util.List;
+import java.util.ArrayList;
+import java.util.TreeSet;
 
-public class AlgoritmChoiceActivity extends AppCompatActivity {
+public class AlgorithmChoiceActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +36,26 @@ public class AlgoritmChoiceActivity extends AppCompatActivity {
             String drugResult = "";
             if(selectedAlgoText.equals("Nearest neighbor")){
 
-                drugResult = Algorithme.NearestNeighbour(personne, db.getAllPersonnes());
+                TreeSet<Integer> neighrestNeighbours;
 
-                personne.setDrug(drugResult);
+                neighrestNeighbours = Algorithme.NearestNeighbour(personne, db.getAllPersonnes());
+                Personne neighbour;
+
+                ArrayList<String> neighboursDrugs = new ArrayList<>();
+                for (Integer rowid : neighrestNeighbours) {
+
+                   neighbour = db.getPersonneFromRowId(String.valueOf(rowid));
+                   neighboursDrugs.add(neighbour.getDrug());
+                }
+                String mostFrequentDrug = mostFrequent(neighboursDrugs);
+
+                System.out.println(mostFrequentDrug);
+                personne.setDrug(mostFrequentDrug);
                 db.updatePersonne(personne);
 
-
+                drugResult = mostFrequentDrug;
             }
+
             Toast.makeText(this,
                     "results using " + selectedAlgoText  + " is " + drugResult,
                     Toast.LENGTH_SHORT).show();

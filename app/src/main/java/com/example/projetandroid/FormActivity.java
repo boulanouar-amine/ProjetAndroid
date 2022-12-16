@@ -65,7 +65,7 @@ public class FormActivity extends AppCompatActivity {
 
             db.addPesonne(p);
                 Toast.makeText(this, "Choose your Algorithm", Toast.LENGTH_SHORT).show();
-                Intent algorithmIntent = new Intent(FormActivity.this, AlgoritmChoiceActivity.class);
+                Intent algorithmIntent = new Intent(FormActivity.this, AlgorithmChoiceActivity.class);
 
                 startActivity(algorithmIntent);
             }

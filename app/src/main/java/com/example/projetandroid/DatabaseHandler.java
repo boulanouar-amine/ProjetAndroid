@@ -22,6 +22,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
 
         private static final String TABLE_PERSONNE = "personne";
+        private static final String KEY_ROWID = "ROWID";
 
         private static final String KEY_AGE = "age";
         private static final String KEY_GENRE= "genre";
@@ -93,7 +94,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 SQLiteDatabase db = this.getWritableDatabase();
 
                 ContentValues values = new ContentValues();
-                values.put(KEY_USERNAME,personne.getUsername());
+                if(personne.getUsername() != null)
+                        values.put(KEY_USERNAME,personne.getUsername());
                 values.put(KEY_AGE,personne.getAge());
                 values.put(KEY_GENRE,personne.getGenre());
                 values.put(KEY_BLOODPRESSURE,personne.getBloodPressure());
@@ -132,15 +134,16 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 return user;
         }
 
-        Personne getPersonneFromUsername(String username){
+        Personne getPersonneFromRowId(String username){
 
                 SQLiteDatabase db = this.getReadableDatabase();
+
 
                 Cursor cursor = db.query(TABLE_PERSONNE,new String[] {
                                 KEY_USERNAME,KEY_AGE,
                                 KEY_GENRE,KEY_BLOODPRESSURE,
                                 KEY_CHOLESTEROL,KEY_NA,KEY_K,KEY_DRUG},
-                        KEY_USERNAME + "=?",
+                        KEY_ROWID + "=?",
                         new String[] {String.valueOf(username)},null,null,null,null);
 
                 if(cursor != null)
@@ -171,11 +174,11 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 SQLiteDatabase db = this.getReadableDatabase();
 
                 Cursor cursor = db.query(TABLE_PERSONNE,new String[] {
-                                KEY_USERNAME,KEY_AGE,
+                                KEY_ROWID,KEY_USERNAME,KEY_AGE,
                                 KEY_GENRE,KEY_BLOODPRESSURE,
                                 KEY_CHOLESTEROL,KEY_NA,KEY_K,KEY_DRUG},
                         null, null, null, null,
-                        "rowid DESC", "1");
+                         KEY_ROWID + " DESC", "1");
 
                 if(cursor != null)
                         cursor.moveToLast();
@@ -183,14 +186,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 Personne personne = new Personne();
 
                 assert cursor != null;
-                personne.setUsername(String.valueOf(cursor.getString(0)));
-                personne.setAge(Integer.parseInt(cursor.getString(1)));
-                personne.setGenre(String.valueOf(cursor.getString(2)));
-                personne.setBloodPressure(String.valueOf(cursor.getString(3)));
-                personne.setCholesterol(String.valueOf(cursor.getString(4)));
-                personne.setNa(Double.parseDouble(cursor.getString(5)));
-                personne.setK(Double.parseDouble(cursor.getString(6)));
-                personne.setDrug(String.valueOf(cursor.getString(7)));
+                personne.setId(Integer.parseInt(cursor.getString(0)));
+                personne.setUsername(String.valueOf(cursor.getString(1)));
+                personne.setAge(Integer.parseInt(cursor.getString(2)));
+                personne.setGenre(String.valueOf(cursor.getString(3)));
+                personne.setBloodPressure(String.valueOf(cursor.getString(4)));
+                personne.setCholesterol(String.valueOf(cursor.getString(5)));
+                personne.setNa(Double.parseDouble(cursor.getString(6)));
+                personne.setK(Double.parseDouble(cursor.getString(7)));
+                personne.setDrug(String.valueOf(cursor.getString(8)));
 
                 cursor.close();
 
@@ -227,7 +231,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 
                 List<Personne> personneList = new ArrayList<>();
 
-                String selectQuery = "SELECT * FROM " + TABLE_PERSONNE;
+                String selectQuery = "SELECT " + KEY_ROWID + " , * FROM " + TABLE_PERSONNE;
 
                 SQLiteDatabase db = this.getWritableDatabase();
 
@@ -236,15 +240,15 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 if(cursor.moveToFirst()){
                         do {
                                 Personne personne = new Personne();
-
-                                personne.setUsername(String.valueOf(cursor.getString(0)));
-                                personne.setAge(Integer.parseInt(cursor.getString(1)));
-                                personne.setGenre(String.valueOf(cursor.getString(2)));
-                                personne.setBloodPressure(String.valueOf(cursor.getString(3)));
-                                personne.setCholesterol(String.valueOf(cursor.getString(4)));
-                                personne.setNa(Double.parseDouble(cursor.getString(5)));
-                                personne.setK(Double.parseDouble(cursor.getString(6)));
-                                personne.setDrug(String.valueOf(cursor.getString(7)));
+                                personne.setId(Integer.parseInt(cursor.getString(0)));
+                                personne.setUsername(String.valueOf(cursor.getString(1)));
+                                personne.setAge(Integer.parseInt(cursor.getString(2)));
+                                personne.setGenre(String.valueOf(cursor.getString(3)));
+                                personne.setBloodPressure(String.valueOf(cursor.getString(4)));
+                                personne.setCholesterol(String.valueOf(cursor.getString(5)));
+                                personne.setNa(Double.parseDouble(cursor.getString(6)));
+                                personne.setK(Double.parseDouble(cursor.getString(7)));
+                                personne.setDrug(String.valueOf(cursor.getString(8)));
 
                                 personneList.add(personne);
 
@@ -267,12 +271,13 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                         new String[] {String.valueOf(user.getUsername())});
         }
 
-        public int updatePersonne(Personne personne){
+        public void updatePersonne(Personne personne){
                 SQLiteDatabase db = this.getWritableDatabase();
 
                 ContentValues values = new ContentValues();
 
-                values.put(KEY_USERNAME,personne.getUsername());
+                if(personne.getUsername() != null)
+                        values.put(KEY_USERNAME,personne.getUsername());
                 values.put(KEY_AGE,personne.getAge());
                 values.put(KEY_GENRE,personne.getGenre());
                 values.put(KEY_BLOODPRESSURE,personne.getBloodPressure());
@@ -281,7 +286,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 values.put(KEY_K,personne.getK());
                 values.put(KEY_DRUG,personne.getDrug());
 
-                return db.update(TABLE_PERSONNE,values,
+                db.update(TABLE_PERSONNE, values,
                         KEY_AGE + "=? and "
                                 + KEY_GENRE + "=? and "
                                 + KEY_BLOODPRESSURE + "=? and "
@@ -289,14 +294,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                                 + KEY_NA + "=? and "
                                 + KEY_K + "=?",
 
-                        new String[] {
+                        new String[]{
                                 Integer.toString(personne.getAge()),
                                 String.valueOf(personne.getGenre()),
                                 String.valueOf(personne.getBloodPressure()),
                                 String.valueOf(personne.getCholesterol()),
                                 Double.toString(personne.getNa()),
                                 Double.toString(personne.getK()),
-                });
+                        });
 
         }
 

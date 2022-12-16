@@ -5,6 +5,8 @@ import java.util.Locale;
 
 public class Personne {
 
+    private int id;
+
     private String username;
 
     private int age;
@@ -28,6 +30,10 @@ public class Personne {
     private String drug;
 
     // getters
+
+    public int getId() {
+        return id;
+    }
 
     public String getUsername() {
         return username;
@@ -62,6 +68,10 @@ public class Personne {
     }
 
     // setters
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public void setUsername(String username) {
         this.username = username;

@@ -2,11 +2,17 @@ package com.example.projetandroid;
 
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Algorithme {
+
+    // KNN section
 
     // Method to find minimum value from the arrayList
     static double minValue(ArrayList<Double> arraylist) {
@@ -42,7 +48,7 @@ public class Algorithme {
         }
             return normalizedList;
         }
-    public static String NearestNeighbour(Personne target, List<Personne> personnes) {
+    public static TreeSet<Integer> NearestNeighbour(Personne target, List<Personne> personnes) {
 
         double minAgeDifference = 10;
         double minGenreDifference = 1;
@@ -68,10 +74,10 @@ public class Algorithme {
 
         int i = 0;
         double totalDifference;
-        LinkedHashMap<Double,String> totalDifferenceMap = new LinkedHashMap<>();
+        LinkedHashMap<Double,Integer> totalDifferenceMap = new LinkedHashMap<>();
 
         for (Personne p : personnes) {
-            p.setUsername("Personne " + i);
+
             i++;
 
             double genreDifference = target.getGenre().equals(p.getGenre()) ? 0 : 1;
@@ -96,12 +102,37 @@ public class Algorithme {
             float kDifference = Math.abs((float) target.getK() - (float) p.getK());
 
             totalDifference = Math.abs(Math.sqrt(Math.pow(ageDifferenceList.get(i), 2) + Math.pow(genreDifference, 2) + Math.pow(bloodPressureDifference, 2) + Math.pow(cholesterolDifference, 2) + Math.pow(naDifference, 2) + Math.pow(kDifference, 2)));
-            totalDifferenceMap.put(totalDifference,p.getUsername());
+            totalDifferenceMap.put(totalDifference,p.getId());
 
         }
-        System.out.println(totalDifferenceMap);
+
+        TreeMap<Double, Integer> sortedDifferenceMap = new TreeMap<>(totalDifferenceMap);
+        TreeSet<Integer> neighrestNeighbours = new TreeSet<>();
+        for(int Knumber = 1; Knumber <= 5; Knumber++) {
+           neighrestNeighbours.add(sortedDifferenceMap.get(sortedDifferenceMap.firstKey()));
+            sortedDifferenceMap.remove(sortedDifferenceMap.firstKey());
+        }
 
 
-        return "Drug FFFFF";
+        return neighrestNeighbours;
+    }
+
+    // Method to find the most frequent value in the arraylist
+    public static String mostFrequent(ArrayList<String> arrayList) {
+        int maxCount = 0;
+        String  mostFrequentElement = "";
+        for (int i = 0 ; i < arrayList.size(); i++) {
+            int count = 0;
+            for (int j = 0; j < arrayList.size(); j++) {
+                if (arrayList.get(j).equals(arrayList.get(i)))
+                    count++;
+            }
+            if (count > maxCount) {
+                maxCount = count;
+                mostFrequentElement = arrayList.get(i);
+            }
+        }
+
+        return mostFrequentElement;
     }
 }
