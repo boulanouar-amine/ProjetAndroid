@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/blurred"
+    tools:context=".FormActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="@string/personne_form"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        android:textStyle="bold"/>
+
+
+    <EditText
+        android:id="@+id/Age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="18dp"
+        android:background="#30ffffff"
+        android:drawablePadding="20dp"
+        android:hint="@string/age"
+
+        android:inputType="textPersonName"
+        android:padding="28dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:autofillHints="age" />
+
+    <EditText
+        android:id="@+id/Na"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Age"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="18dp"
+        android:background="#30ffffff"
+        android:drawablePadding="20dp"
+        android:hint="@string/na"
+
+        android:inputType="textPersonName"
+        android:padding="28dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:autofillHints="Na" />
+
+    <EditText
+        android:id="@+id/K"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Na"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        android:layout_marginBottom="18dp"
+        android:background="#30ffffff"
+        android:drawablePadding="20dp"
+        android:hint="@string/k"
+
+        android:inputType="textPersonName"
+        android:padding="28dp"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:autofillHints="K" />
+
+
+    <RadioGroup
+        android:id="@+id/radio_Genre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/K"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+
+        >
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/genre"
+            android:paddingTop="24dp"
+            android:paddingBottom="28dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="36dp"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            />
+        <RadioButton
+            android:id="@+id/radio_Genre_MALE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:paddingTop="24dp"
+            android:paddingBottom="28dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="28dp"
+            android:textSize="18sp"
+            android:text="@string/male"
+          />
+        <RadioButton android:id="@+id/radio_Genre_FEMALE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:paddingTop="24dp"
+            android:paddingBottom="28dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="28dp"
+            android:textSize="18sp"
+            android:text="@string/female"
+          />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/radio_BloodPressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/radio_Genre"
+        android:layout_marginStart="18dp"
+        android:layout_marginEnd="18dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/blood_pressure"
+            android:padding="10dp"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            />
+        <RadioButton
+            android:id="@+id/radio_BloodPressure_HIGH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:paddingStart="12dp"
+            android:paddingEnd="28dp"
+            android:textSize="18sp"
+            android:text="@string/high"
+            />
+        <RadioButton android:id="@+id/radio_BloodPressure_NORMAL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+
+            android:paddingStart="10dp"
+            android:paddingEnd="28dp"
+            android:textSize="18sp"
+            android:text="@string/normal"
+            />
+
+        <RadioButton android:id="@+id/radio_BloodPressure_LOW"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:paddingStart="10dp"
+            android:paddingEnd="28dp"
+            android:textSize="18sp"
+            android:text="@string/low"
+            />
+    </RadioGroup>
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_toEndOf="@id/radio_BloodPressure"
+        android:layout_below="@id/radio_Genre"
+        android:layout_marginStart="28dp"
+        android:layout_marginEnd="18dp"
+        >
+        <TextView
+            android:id="@+id/radio_Cholesterol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cholesterol"
+            android:padding="12dp"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            />
+        <RadioButton
+            android:id="@+id/radio_Cholesterol_HIGH"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:paddingStart="12dp"
+            android:paddingEnd="28dp"
+            android:textSize="18sp"
+            android:text="@string/high"
+            />
+
+        <RadioButton android:id="@+id/radio_Cholesterol_NORMAL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+
+            android:paddingStart="10dp"
+            android:paddingEnd="28dp"
+            android:textSize="18sp"
+            android:text="@string/normal"
+            />
+
+    </RadioGroup>
+
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button"
+        android:layout_width="135dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radio_BloodPressure"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:text="@string/submit"
+        android:textSize="20sp"
+        android:backgroundTint="#42516A"
+        />
+</RelativeLayout>

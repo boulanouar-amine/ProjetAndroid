@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
             if (db.checkUsernamePassword(loginUser))
             {
                 Toast.makeText(MainActivity.this, "logged in as " +loginUser.getUsername(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(MainActivity.this, testDB.class));
+                startActivity(new Intent(MainActivity.this, FormActivity.class));
             } else {
                 Toast.makeText(MainActivity.this, "wrong username or password", Toast.LENGTH_SHORT).show();
             }

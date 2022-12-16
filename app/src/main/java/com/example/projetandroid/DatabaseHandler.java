@@ -132,7 +132,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 return user;
         }
 
-
+        // non functional needs an id to find a specifique person
         Personne getPersonne(String username){
 
                 SQLiteDatabase db = this.getReadableDatabase();
