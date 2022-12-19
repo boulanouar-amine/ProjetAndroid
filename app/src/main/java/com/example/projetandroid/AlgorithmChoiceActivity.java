@@ -5,9 +5,11 @@ import static com.example.projetandroid.Algorithm.mostFrequent;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,34 +24,34 @@ public class AlgorithmChoiceActivity extends AppCompatActivity {
 
         DatabaseHandler db = new DatabaseHandler(this);
 
-        Button calculate = (Button) findViewById(R.id.calculate);
-        RadioGroup radioAlgo = (RadioGroup) findViewById(R.id.radio_Choice);
+        Button calculate =  findViewById(R.id.calculate);
+        RadioGroup radioAlgo =  findViewById(R.id.radio_Choice);
+
+        TextView recommendedDrug = findViewById(R.id.recommendedDrug);
+        TextView drugResult = findViewById(R.id.drugResult);
 
         calculate.setOnClickListener(view -> {
         try {
-            RadioButton selectedAlgo = (RadioButton) findViewById(radioAlgo.getCheckedRadioButtonId());
+            RadioButton selectedAlgo = findViewById(radioAlgo.getCheckedRadioButtonId());
             String selectedAlgoText = selectedAlgo.getText().toString();
 
             //getting the last added person in the database from their ROWID instead of sending the whole object from the previous activity
             Personne targetPersonne =  db.getLastAddedPersonne();
 
-            //helps having same name for the results of all the algorithms instead of having to change the name of the result for each algorithm
-            String drugResult = "";
+            String drugResultText = "";
 
             if(selectedAlgoText.equals("Nearest neighbor")){
 
                 TreeSet<Integer> nearestNeighbours;
 
-                //getting the nearest neighbours (an array of their ROWID since i use multiple rows as a primary key) of the last added personne
-                nearestNeighbours = Algorithm.NearestNeighbour(targetPersonne, db.getAllPersonnes());
+                //getting the drugs of the 5 nearest neighbours from the database
+                nearestNeighbours = Algorithm.NearestNeighbour(targetPersonne, db.getAllPersonnes() ,5);
 
                 Personne neighbour;
 
                 ArrayList<String> neighboursDrugs = new ArrayList<>();
 
-                //getting the drugs of the 5 nearest neighbours from the database
-                //can be changed to get the number of neighbours you want
-                //also can show all 5 drugs in a list instead of just the most frequent one
+
                 for (Integer rowid : nearestNeighbours) {
 
                    neighbour = db.getPersonneFromRowId(String.valueOf(rowid));
@@ -61,11 +63,20 @@ public class AlgorithmChoiceActivity extends AppCompatActivity {
                 targetPersonne.setDrug(mostFrequentDrug);
                 db.updatePersonne(targetPersonne);
 
-                drugResult = mostFrequentDrug;
+                drugResultText = mostFrequentDrug;
+            }else if(selectedAlgoText.equals("Naive Bayes")){
+
+                //getting the drug from the Naive Bayes algorithm
+               drugResultText = Algorithm.naiveBayes(targetPersonne, db.getAllPersonnes());
             }
 
+            drugResult.setText(drugResultText);
+            recommendedDrug.setVisibility(View.VISIBLE);
+            drugResult.setVisibility(View.VISIBLE);
+
+
             Toast.makeText(this,
-                    "results using " + selectedAlgoText  + " is " + drugResult,
+                    "results using " + selectedAlgoText  + " is " + drugResultText,
                     Toast.LENGTH_SHORT).show();
 
         }catch (NullPointerException e){
