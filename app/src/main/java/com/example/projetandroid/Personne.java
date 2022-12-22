@@ -1,5 +1,8 @@
 package com.example.projetandroid;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Personne {
 
     private int id;
@@ -25,6 +28,11 @@ public class Personne {
     Cholesterol cholesterol;
 
     private String drug;
+
+    // les moyennes des valeurs numériques
+    private static final double Na = 0.6928814897959186;
+    private static double K  = 0.05009618367346938;
+    private static int moyAge = 44;
 
     // getters
 
@@ -143,5 +151,94 @@ public class Personne {
         this.k = k;
 
     }
+    List<String> toList(){
+        List<String> personneList = new ArrayList<>();
+        personneList.add(getAgeCat());
+        personneList.add(getGenre());
+        personneList.add(getBloodPressure());
+        personneList.add(getCholesterol());
+        personneList.add(getNaCat());
+        personneList.add(getKCat());
+        personneList.add(getDrug());
+        return personneList;
+    }
+
+    public String getAgeCat(){
+        String cat;
+        if(this.age > Personne.moyAge)
+            cat = "adult";
+        else
+            cat = "young";
+        return cat;
+    }
+
+    public String getKCat(){
+        String cat;
+        if(this.getK() > Personne.K)
+            cat = "High";
+        else
+            cat = "Low";
+        return cat;
+    }
+
+    public String getNaCat(){
+        String cat;
+        if(this.getNa() > Personne.Na)
+            cat = "High";
+        else
+            cat = "Low";
+        return cat;
+    }
+
+    public double distanceEuclidienne(Personne p){
+        double distance=0.0;
+        int ageCat	= this.getAgeCat().equalsIgnoreCase(p.getAgeCat()) ? 0 : 1; // si la categorie d'age est la même ageCat=0 ,et =1 sinon
+        int sexe	= this.getGenre().equalsIgnoreCase(p.getGenre()) ? 0 : 1; // si le sexe est le même sexe=0 ,et =1 sinon
+        int bp = 0;
+
+        if(this.getBloodPressure().equalsIgnoreCase(p.getBloodPressure()))
+            bp = 0;
+        else
+        if(this.getBloodPressure().equalsIgnoreCase("NORMAL") || p.getBloodPressure().equalsIgnoreCase("NORMAL"))
+            bp = 1;
+        else
+        if( (p.getBloodPressure().equalsIgnoreCase("LOW") || this.getBloodPressure().equalsIgnoreCase("LOW")) && (p.getBloodPressure().equalsIgnoreCase("HIGH") || this.getBloodPressure().equalsIgnoreCase("HIGH")) )
+            bp = 2*2;
+
+        int cholesterol = this.getCholesterol().equalsIgnoreCase(p.getCholesterol()) ? 0 : 1;
+        double na = Math.pow(this.getNa() - p.getNa(), 2);
+        double k  = Math.pow(this.getK() - p.getK(), 2);
+
+        distance = Math.sqrt(bp + ageCat + sexe + cholesterol + na + k);
+
+        return distance;
+    }
+
+    public double distanceManahattan(Personne p){
+        double distance=0.0;
+        int ageCat	=	this.getAgeCat().equalsIgnoreCase(p.getAgeCat()) ? 0 : 1;
+        int sexe	=	this.getGenre().equalsIgnoreCase(p.getGenre()) ? 0 : 1;
+        int bp 		= 	0;
+
+        if(this.getBloodPressure().equalsIgnoreCase(p.getBloodPressure()))
+            bp = 0;
+        else
+        if(this.getBloodPressure().equalsIgnoreCase("NORMAL") || p.getBloodPressure().equalsIgnoreCase("NORMAL"))
+            bp = 1;
+        else
+        if( (p.getBloodPressure().equalsIgnoreCase("LOW") || this.getBloodPressure().equalsIgnoreCase("LOW")) && (p.getBloodPressure().equalsIgnoreCase("HIGH") || this.getBloodPressure().equalsIgnoreCase("HIGH")) )
+            bp = 2;
+
+        int cholesterol = this.getCholesterol().equalsIgnoreCase(p.getCholesterol()) ? 0 : 1;
+        double na 		= Math.abs(this.getNa() - p.getNa());
+        double k  		= Math.abs(this.getK() - p.getK());
+
+        distance = bp + ageCat + sexe + cholesterol + na + k;
+
+        return distance;
+    }
+
+
+
 
 }

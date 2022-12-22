@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class Application extends android.app.Application {
     private static Application instance;
@@ -31,6 +32,7 @@ public class Application extends android.app.Application {
 
     //Read the data from the csv file and add it to the database
     private void readPersonneData(DatabaseHandler db){
+        List<String> feautures ;
         InputStream is = getResources().openRawResource(R.raw.data);
         BufferedReader reader = new BufferedReader(
                 new InputStreamReader(is, StandardCharsets.UTF_8)
@@ -38,7 +40,8 @@ public class Application extends android.app.Application {
         String line = "";
         try{
             //skip the headers
-            reader.readLine();
+            feautures = List.of(reader.readLine().split(","));
+
             while((line = reader.readLine()) != null){
                 //split by ','
                 String[] tokens = line.split(",");
