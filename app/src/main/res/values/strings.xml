@@ -23,4 +23,5 @@
     <string name="nearest_neighbor">Nearest neighbor</string>
     <string name="naive_bayes">Naive Bayes</string>
     <string name="calculate">Calculate</string>
+    <string name="recommended_drug">Recommended Drug :</string>
 </resources>
